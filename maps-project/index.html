@@ -107,7 +107,7 @@
           height: 30%;
 }
 .route-info{
-    list-style-image: url('maps-project/ic_swap_horiz_black_18px.svg');
+    list-style-image: url('ic_swap_horiz_black_18px.svg');
     font-family:'Roboto', sans-serif;
           font-size: 15px;
 }
@@ -235,8 +235,8 @@
               
                   
       </div>
-      <div class="info-div"><ol id="info-list" class="route-info">
-                                        </ol></div>   
+      <div class="info-div"><ul id="info-list" class="route-info">
+                                        </ul></div>   
                           
           <div id="map" class="map-div"></div>
     
@@ -342,7 +342,7 @@ navigator.geolocation.getCurrentPosition(function(posit) {
         document.getElementById("info-list").appendChild(dist);
            document.getElementById("info-list").appendChild(dur);
            
-           //displaying estimated time of arrival for transit directions (doesn't work for other modes)
+           //displays estimated time of arrival for transit directions (doesn't work for other modes)
            if(travelMode==="TRANSIT"){
            var ETA=document.createElement("li");
            ETA.appendChild(document.createTextNode("ETA: " + leg.arrival_time.text));
@@ -363,4 +363,5 @@ navigator.geolocation.getCurrentPosition(function(posit) {
     </script>
   </body>
 </html>
+
 
