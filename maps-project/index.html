@@ -3,25 +3,21 @@
   <head>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-<!-- jQuery library -->
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-<!-- Latest compiled JavaScript -->
-<!--bootstrap 3 is automatically responsive -->
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Option 3 - Google Maps Javascript API</title>
  
     <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      
-      
+                  
       .map-div {
         height: 75%;
         width:   55%;
@@ -33,7 +29,7 @@
         border-color: #009688;
         
       }
-      /* Optional: Makes the sample page fill the window. */
+     
       
       body{
           width:100%;
@@ -93,27 +89,13 @@
           background-color:#4DB6AC;
           margin-left:10px;
           margin-right:10px;
-  border:0px solid transparent; /* this was 1px earlier */
+  border:0px solid transparent; /* this was 1px earlier because of bootstrap */
  
       }
       .btn-primary.checked {
   color: #ffffff;
   background-color: #3276b1;
   border-color: #285e8e;
-}
-
-#distance{
-    font-family:'Roboto', sans-serif;
-          font-size: 17px;
-          font-weight:bold;
-          
-          color:black;
-          position:absolute;
-          width:150px;
-          left:10%;
-          
-          top:40%;
-          
 }
 
 .info-div{
@@ -129,23 +111,26 @@
     font-family:'Roboto', sans-serif;
           font-size: 15px;
 }
-
 @media only screen and (max-width: 900px){
-    #map{
+    .map-div{
         width: 50%;
         left: 45%;
     }
 }
-
-@media only screen and (max-width: 580px){
-    #map{
-        width: 40%;
-        left: 57%;
+@media only screen and (max-width: 620px){
+    .map-div{
+        width: 45%;
+        left: 50%;
+    }
+    .button-container{
+        width:210px;
+    }
+    .info-div{
+        width:210px;
     }
 }
-
 @media only screen and (max-height:460px){
-    #map{
+    .map-div{
         height: 65%;
     }
     .button-container{
@@ -160,9 +145,8 @@
         top: 35%;
     }
 }
-
 @media only screen and (max-width: 500px){
-    #map{
+    .map-div{
         top: 75px;
         height: 70%;
         width:45%;
@@ -197,13 +181,12 @@
         padding: 10px 15px 10px 20px;
     }
 }
-
 @media only screen and  (max-width: 400px){
      
     .section-title{
         padding: 8px 15px 10px 20px;
     }
-    #map{
+    .map-div{
         top: 200px;
         height: 300px;
         width: 85%;
@@ -239,10 +222,8 @@
           
       </div>
       <div class="button-container">
-      
-          
-      
-      <div class="btn-group radio-div" name="rad-group" id="radio-group" data-toggle="buttons">
+                      
+      <div class="btn-group radio-div" id="radio-group" data-toggle="buttons">
           <label class="btn btn-primary btn-mot"><input type="radio" value="WALKING" name="options" id="changemode-walking" ><i class="material-icons">directions_walk</i></label>
           <label class="btn btn-primary btn-mot"><input type="radio" value="TRANSIT" name="options" id="changemode-transit" ><i class="material-icons">directions_bus</i></label>
           <label class="btn btn-primary btn-mot"><input type="radio" value="DRIVING" name="options" id="changemode-car" ><i class="material-icons">directions_car</i></label>
@@ -254,43 +235,40 @@
               
                   
       </div>
-      <div class="info-div"><ol id="text-route" class="route-info">
+      <div class="info-div"><ol id="info-list" class="route-info">
+                                        </ol></div>   
                           
-              </ol></div>   
-      
-          
-          
           <div id="map" class="map-div"></div>
-    <script>
-       
-        var posLat;
-        var posLong;
-        var map;
-        var travelMode;
-        
     
+          
+          <script>
+             
+        var travelMode;//mode of transport selected
+            
       function initMap() {
         
-        var locLat;
-        var locLng;
+        var locLat;//user location latitude
+        var locLng;//user location longitude
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
+        
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 9,
           center: {lat: 51.5, lng: 0}
         });
+        
         directionsDisplay.setMap(map);
+        
         //jQuery snippet in order to deal with troublesome bootstrap radio toggle functionality
-        $("#changemode-walking").change(function() {//detects change in #radio-group div
+        $("#changemode-walking").change(function() {
     travelMode=this.val();
 });
-$("#changemode-transit").change(function() {//detects change in #radio-group div
+$("#changemode-transit").change(function() {
     travelMode=this.val();
 });
-$("#changemode-car").change(function() {//detects change in #radio-group div
+$("#changemode-car").change(function() {
     travelMode=this.val();
 });
-
         //javascript listeners are still necessary for the radio toggles to work
         document.getElementById("changemode-car").addEventListener('click', function(){
             
@@ -303,68 +281,72 @@ $("#changemode-car").change(function() {//detects change in #radio-group div
         document.getElementById("changemode-walking").addEventListener('click', function(){
             travelMode="WALKING";
         });
-if (navigator.geolocation) {
-          
-            navigator.geolocation.getCurrentPosition(function(posit) {
+        
+navigator.geolocation.getCurrentPosition(function(posit) {
                 
             locLat=posit.coords.latitude;
             locLng=posit.coords.longitude;
-            
-            
-            
-}, function(){
-    console.log("geolocation failed");
-});}
-else{
-    window.alert("cannot find location");
-}
+                                    
+}, function (error){
+    //handle geolocation errors
+    switch(error.code) {
+     case error.PERMISSION_DENIED:
+            window.alert("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            window.alert("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            window.alert("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            window.alert("An unknown error occurred.");
+            break;
+};});
+
+
+
         var onChangeHandler = function() {
           calculateAndDisplayRoute(directionsService, directionsDisplay, locLat, locLng);
         };
         
         document.getElementById('calc-button').addEventListener('click', onChangeHandler);
         getCurrentLocation();
-      }
-function getCurrentLocation(){
-     
-    
-return; }
+      }//end of initMap() function
+      
+
+
+
       function calculateAndDisplayRoute(directionsService, directionsDisplay, locLat, locLng) {
-        getCurrentLocation();
-        
-       
-        
+                      
         directionsService.route({
           origin: new google.maps.LatLng({lat: 51.5032, lng: -0.1123}),
           destination: new google.maps.LatLng({lat: locLat, lng: locLng}),
           travelMode: travelMode
         }, function(response, status) {
-          if (status === 'OK') {
+         
+    if (status === 'OK') {
+        //display directions on map
             directionsDisplay.setDirections(response);
-          
-          
+                    
             var leg=directionsDisplay.directions.routes[0].legs[0];
-             
-           
-           
-          
-           
-           document.getElementById("text-route").innerHTML=""; //clears list
-          var dist=document.createElement("li"); 
+                        
+         document.getElementById("info-list").innerHTML=""; //clears #info-list list
+         var dist=document.createElement("li"); 
          var dur=document.createElement("li");
            
          dist.appendChild(document.createTextNode("Distance: " + leg.distance.text));
            
         dur.appendChild(document.createTextNode("Duration: " + leg.duration.text));
-        
-       
+        //display direction and duration information                  
+        document.getElementById("info-list").appendChild(dist);
+           document.getElementById("info-list").appendChild(dur);
            
-        document.getElementById("text-route").appendChild(dist);
-           document.getElementById("text-route").appendChild(dur);
-           if(travelMode="TRANSIT"){
+           //displaying estimated time of arrival for transit directions (doesn't work for other modes)
+           if(travelMode==="TRANSIT"){
            var ETA=document.createElement("li");
            ETA.appendChild(document.createTextNode("ETA: " + leg.arrival_time.text));
-           document.getElementById("text-route").appendChild(ETA);
+           document.getElementById("info-list").appendChild(ETA);
           
         }
           } else {
@@ -372,6 +354,8 @@ return; }
             
           }
         });
+        
+        
       }
     </script>
     <script async defer
@@ -379,3 +363,4 @@ return; }
     </script>
   </body>
 </html>
+
